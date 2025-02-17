@@ -10,13 +10,9 @@ game:GetService("ReplicatedStorage").Timestop:FireServer()
 game.Players.LocalPlayer.Character.Humanoid.Health = 0
 wait(2)
 fireclickdetector(game:GetService("Workspace").Lobby.Replica.ClickDetector)
-game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
-game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
-game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
-game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
-game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
-game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
-game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
-game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
+ask.wait(1)
+for i = 1, 75000 do
+        game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
+end
 wait(50)
 game:GetService("TeleportService"):Teleport(game.PlaceId)
