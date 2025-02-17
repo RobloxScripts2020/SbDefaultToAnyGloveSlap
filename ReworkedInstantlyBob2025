@@ -8,6 +8,7 @@ game:GetService("ReplicatedStorage").TimestopJump:FireServer()
 game:GetService("ReplicatedStorage").Timestopchoir:FireServer()
 game:GetService("ReplicatedStorage").Timestop:FireServer()
 game.Players.LocalPlayer.Character.Humanoid.Health = 0
+wait(3)
 fireclickdetector(game:GetService("Workspace").Lobby.Replica.ClickDetector)
 game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
 game:GetService("ReplicatedStorage").Duplicate:FireServer(unpack({[1] = true}))
