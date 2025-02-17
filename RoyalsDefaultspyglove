@@ -1,0 +1,3 @@
+game:GetService("ReplicatedStorage").GRAB:FireServer()
+wait(1)
+game.Players.LocalPlayer:Kick("imagine exploiting hahahaha")
