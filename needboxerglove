@@ -1,0 +1,2 @@
+DurationTimeSHOP = math.huge-- math.huge is inf, u can also edit to number like 10s to server hop
+loadstring(game:HttpGet("https://raw.githubusercontent.com/DonjoScripts/Public-Scripts/refs/heads/Slap-Battles/Boxer-slap-farm"))()
