@@ -1,0 +1,3 @@
+game:GetService("ReplicatedStorage").ExecuteAlert:FireServer(unpack({[1] = true}))
+wait(0.1)
+game:GetService("ReplicatedStorage").Clear:FireServer(unpack({[1] = true}))
