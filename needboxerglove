@@ -1,5 +1,3 @@
-game.Players.LocalPlayer:Kick("the script will be here  in message kick our new one wait 10 seconds and button will show thats say copy")
-wait(10)
-game.Players.LocalPlayer:Kick("You have been banned for 45645 days")
+
 DurationTimeSHOP = math.huge-- math.huge is inf, u can also edit to number like 10s to server hop
 loadstring(game:HttpGet("https://raw.githubusercontent.com/DonjoScripts/Public-Scripts/refs/heads/Slap-Battles/Boxer-slap-farm"))()
