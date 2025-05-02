@@ -993,9 +993,9 @@ Tab1:AddButton({
 })
 
 Tab1:AddButton({
-	Name = "Inf yield Delta",
+	Name = "Replica + Reverse Slap Farm (NEW)",
 	Callback = function()
-      		loadstring(game:HttpGet("https://gist.githubusercontent.com/lxnnydev/c533c374ca4c1dcef4e1e10e33fa4a0c/raw/03e74f184f801dad77d3ebe1e2f18c6ac87ca612/delta___IY.gistfile1.txt.lua",true))()
+      		loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/unpatched"))()
   	end    
 })
 
