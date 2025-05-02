@@ -1,4 +1,9 @@
-`if not game:IsLoaded() then
+local args = {
+    workspace:WaitForChild("LocalPlayer"):WaitForChild("Head")
+}
+game:GetService("ReplicatedStorage"):WaitForChild("Piano"):FireServer(unpack(args))
+wait(1)
+if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
@@ -12,7 +17,7 @@ end
 repeat wait() until game.Players.LocalPlayer
 wait(0.25)
 _G.AutoExecuter = true
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SbDefaultToAnyGloveSlap/refs/heads/main/ganghub3"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Giangplay/Slap_Battles/main/Slap_Battles.lua"))()
     ]])
 else
 game:GetService("StarterGui"):SetCore("SendNotification",{Title = "Error",Text = "You cannot auto execute",Icon = "rbxassetid://7733658504",Duration = 5})
@@ -24,7 +29,7 @@ game:GetService("GuiService"):ClearError()
 local OrionLib = loadstring(game:HttpGet(("https://raw.githubusercontent.com/Giangplay/Script/main/Orion_Library_PE_V2.lua")))()
 local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 if game.PlaceId == 6403373529 or game.PlaceId == 9015014224 then
-local Window = OrionLib:MakeWindow({IntroText = "Slap Battles 👏", IntroIcon = "rbxassetid://15315284749",Name = ("Lunars Verison Updated 2025 - Slap Battles 👏".." | ".. identifyexecutor()),IntroToggleIcon = "rbxassetid://7734091286", HidePremium = false, SaveConfig = false, IntroEnabled = true, ConfigFolder = "slap battles"})
+local Window = OrionLib:MakeWindow({IntroText = "Slap Battles 👏", IntroIcon = "rbxassetid://15315284749",Name = ("Lunarify Hub- Slap Battles 👏".." | ".. identifyexecutor()),IntroToggleIcon = "rbxassetid://7734091286", HidePremium = false, SaveConfig = false, IntroEnabled = true, ConfigFolder = "slap battles"})
 
 ---Bypass----
 
@@ -993,9 +998,9 @@ Tab1:AddButton({
 })
 
 Tab1:AddButton({
-	Name = "Replica + Reverse Slap Farm (NEW)",
+	Name = "Inf yield Delta",
 	Callback = function()
-      		loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/unpatched"))()
+      		loadstring(game:HttpGet("https://gist.githubusercontent.com/lxnnydev/c533c374ca4c1dcef4e1e10e33fa4a0c/raw/03e74f184f801dad77d3ebe1e2f18c6ac87ca612/delta___IY.gistfile1.txt.lua",true))()
   	end    
 })
 
@@ -2543,19 +2548,29 @@ end
 })
 
 Tab14:AddDropdown({
-	Name = "slap farm",
+	Name = "Rojo Ability",
 	Default = "",
-	Options = {"very faster get 100 slaps in second ", "get slaps per .1 second gives more then 2 in second"},
+	Options = {"Normal", "Down"},
 	Callback = function(Value)
 RojoAbility = Value
 	end    
 })
 
 Tab14:AddToggle({
-	Name = "slap farm v5",
+	Name = "Auto Spam Rojo [ All Glove ]",
 	Default = false,
 	Callback = function(Value)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/unpatched"))()
+if Person == nil then
+Person = game.Players.LocalPlayer.Name
+end
+_G.RojoSpam = Value
+while _G.RojoSpam and RojoAbility == "Normal" do
+game:GetService("ReplicatedStorage"):WaitForChild("RojoAbility"):FireServer("Release", {game.Players[Person].Character.HumanoidRootPart.CFrame})
+task.wait()
+end
+while _G.RojoSpam and RojoAbility == "Down" do
+game:GetService("ReplicatedStorage"):WaitForChild("RojoAbility"):FireServer("Release", {game.Players[Person].Character.HumanoidRootPart.CFrame * CFrame.Angles(-1.5, -9.99999993922529e-09, -0.5663706660270691)})
+task.wait()
 end
 	end    
 })
@@ -4058,7 +4073,19 @@ ReplicaAndReverse = Tab14:AddToggle({
 	Name = "Reverse + Replica Slap Farm",
 	Default = false,
 	Callback = function(Value)
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/unpatched"))()
+		ReplicaAndReverseGet = Value 
+if _G.GetSlapGot == "Normal" then
+if game.Players.LocalPlayer.Character:FindFirstChild("entered") == nil and game.Players.LocalPlayer.leaderstats.Glove.Value == "Reverse" then
+if ReplicaAndReverseGet == true then 
+coroutine.wrap(SpamReplicaReverse)() 
+end
+while ReplicaAndReverseGet do 
+if game.Players.LocalPlayer.Character:FindFirstChild("entered") and game.Players.LocalPlayer.Character.Humanoid.Health ~= 0 then
+for i, v in pairs(workspace:GetChildren()) do 
+                 if v.Name:match(game.Players.LocalPlayer.Name) and v:FindFirstChild("HumanoidRootPart") then
+game:GetService("ReplicatedStorage").b:FireServer(v:WaitForChild("Head"),true)
+end
+                 end
 end
 task.wait()
 end
@@ -10569,9 +10596,9 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Giangplay/Script/main
 })
 
 Tab:AddButton({
-	Name = "Replica + Reverse Slap Farm by animalstalkstome",
+	Name = "Inf Yield Delta",
 	Callback = function()
-      		loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/unpatched"))()
+      		loadstring(game:HttpGet("https://gist.githubusercontent.com/lxnnydev/c533c374ca4c1dcef4e1e10e33fa4a0c/raw/03e74f184f801dad77d3ebe1e2f18c6ac87ca612/delta___IY.gistfile1.txt.lua",true))()
   	end    
 })
 
