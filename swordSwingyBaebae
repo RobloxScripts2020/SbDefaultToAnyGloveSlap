@@ -2,4 +2,4 @@ local args = {
     [1] = workspace:WaitForChild("\195\133BallerHeyitsme7358"):WaitForChild("Head")
 }
 
-game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("swordevent"):FireServer(unpack(args))
+game:GetService("ReplicatedStorage"):WaitForChild("GeneralAbility"):FireServer(unpack(args))
