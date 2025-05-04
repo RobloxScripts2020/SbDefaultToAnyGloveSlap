@@ -1,0 +1,99 @@
+-- Load OrionLib
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Giangplay/Script/main/Orion_Library_PE_V2.lua"))()
+print("OrionLib loaded!")  -- This helps confirm that the library is loaded
+
+-- Create the window
+local Window = OrionLib:MakeWindow({
+    Name = "Full Executor",
+    HidePremium = false,
+    SaveConfig = false,
+    IntroText = "Executor Ready"
+})
+
+-- Create the main tab
+local MainTab = Window:MakeTab({
+    Name = "Executor",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Check that tab is created
+print("MainTab created!")  -- Verify if the tab is created
+
+local scriptInput = ""
+local scripts = {
+    ["Print Hello"] = 'print("Hello from executor!")',
+    ["Fly Script"] = game:HttpGet("https://pastebin.com/raw/YOUR_FLY_SCRIPT_ID"), -- replace with a real script
+    ["Speed Boost"] = 'game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100'
+}
+
+-- Add the Textbox for script input
+MainTab:AddTextbox({
+    Name = "Script Input",
+    Default = "",
+    TextDisappear = false,
+    Callback = function(Value)
+        scriptInput = Value
+        print("Script input changed: " .. scriptInput)  -- Debug to see if the input is correctly received
+    end
+})
+
+-- Add Dropdown to select predefined scripts
+MainTab:AddDropdown({
+    Name = "Load Predefined Script",
+    Default = "Print Hello",
+    Options = {"Print Hello", "Fly Script", "Speed Boost"},
+    Callback = function(option)
+        scriptInput = scripts[option]
+        OrionLib:MakeNotification({
+            Name = "Loaded",
+            Content = option .. " loaded into input box.",
+            Time = 2
+        })
+    end
+})
+
+-- Add the Execute button
+MainTab:AddButton({
+    Name = "▶️ Execute",
+    Callback = function()
+        if scriptInput == "" then
+            OrionLib:MakeNotification({
+                Name = "Input Empty",
+                Content = "Please enter or load a script to execute.",
+                Time = 3
+            })
+            return
+        end
+        
+        local success, err = pcall(function()
+            loadstring(scriptInput)()
+        end)
+        if not success then
+            OrionLib:MakeNotification({
+                Name = "Execution Failed",
+                Content = "Error: " .. err,
+                Time = 4
+            })
+        else
+            OrionLib:MakeNotification({
+                Name = "Execution Successful",
+                Content = "Script executed successfully.",
+                Time = 4
+            })
+        end
+    end
+})
+
+-- Add Clear button
+MainTab:AddButton({
+    Name = "🗑️ Clear Input",
+    Callback = function()
+        scriptInput = ""
+        OrionLib:MakeNotification({
+            Name = "Cleared",
+            Content = "Script input cleared.",
+            Time = 2
+        })
+    end
+})
