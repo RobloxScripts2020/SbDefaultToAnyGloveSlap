@@ -1,0 +1,69 @@
+-- Load OrionLib UI library
+local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/Giangplay/Script/main/Orion_Library_PE_V2.lua'))()
+
+-- Create the main window of the hub
+local Window = OrionLib:MakeWindow({
+    Name = "My Script Hub",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "MyScriptHub"
+})
+
+-- Key system variables
+local KEY = "freekey43593" -- Update this key daily
+local inputKey = ""
+
+-- Function to create the main GUI tab after successful key entry
+local function createMainTab()
+    local mainTab = Window:MakeTab({
+        Name = "Main",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+
+    mainTab:AddButton({
+        Name = "Sample Button",
+        Callback = function()
+            print("Sample Button was clicked!")
+        end
+    })
+
+    mainTab:AddToggle({
+        Name = "Sample Toggle",
+        Default = false,
+        Callback = function(state)
+            print("Sample Toggle state:", state)
+        end
+    })
+end
+
+-- Function to create the Misc tab
+local function createMiscTab()
+    local miscTab = Window:MakeTab({
+        Name = "Misc",
+        Icon = "rbxassetid://4483345998",
+        PremiumOnly = false
+    })
+
+    -- "Baller Slap Farm" button
+    miscTab:AddButton({
+        Name = "Baller Slap Farm",
+        Callback = function()
+            local player = game.Players.LocalPlayer
+            local leaderstats = player:FindFirstChild("leaderstats")
+            local ballerStat = leaderstats and leaderstats:FindFirstChild("Baller")
+
+            if ballerStat then
+                -- Run the Slap Farm script if player has Baller stat
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/hiiamslapfarmiamveryfamous"))()
+            else
+                -- Show an error message if they don't have access
+                local screenGui = Instance.new("ScreenGui", game.CoreGui)
+                screenGui.Name = "AccessDeniedGUI"
+
+                local textLabel = Instance.new("TextLabel", screenGui)
+                textLabel.Size = UDim2.new(0, 400, 0, 50)
+                textLabel.Position = UDim2.new(0.5, -200, 0.9, 0)
+                textLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                textLabel.BorderSizePixel = 0
+                textLabel.TextColor3 = Color3.fromR
