@@ -55,7 +55,7 @@ local function createMiscTab()
 
             if slapsStat and slapsStat.Value >= 19000 then
                 -- Run the Slap Farm script if the player has at least 19,000 slaps
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/hiiamslapfarmiamveryfamous"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/main/-100/hiiamslapfarmiamveryfam.lua"))()
             else
                 -- Show an error message if they don't have 19,000 slaps
                 local screenGui = Instance.new("ScreenGui", game.CoreGui)
@@ -93,7 +93,7 @@ local function createMiscTab()
 
             if reaperEquipped then
                 -- Run the Reaper Slap Farm script if Reaper is equipped
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/GiveServerSideEffect"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/main/-100/GiveServerSideEffect"))()
             else
                 -- Show an error message if Reaper is not equipped
                 local screenGui = Instance.new("ScreenGui", game.CoreGui)
@@ -130,7 +130,7 @@ local function createMiscTab()
 
             if slapsStat and slapsStat.Value >= 4000 then
                 -- Run the Dual Slaps Farm script if the player has at least 4000 slaps
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/boxerslap-Public-Scripts/refs/heads/Slap-Battles/dual%20mastery"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/main/-100/boxerslap-Public-Scripts/refs/heads/Slap-Battles/dual%20mastery"))()
             else
                 -- Show an error message if they don't have 4000 slaps
                 local screenGui = Instance.new("ScreenGui", game.CoreGui)
@@ -167,7 +167,7 @@ local function createMiscTab()
 
             if slapsStat and slapsStat.Value >= 13000 then
                 -- Run the Flick Farm script if the player has at least 13,000 slaps
-                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/boxerslap-Public-Scripts/refs/heads/Slap-Battles/flick-farm"))()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/main/-100/boxerslap-Public-Scripts/refs/heads/Slap-Battles/flick-farm"))()
             else
                 -- Show an error message if they don't have 13,000 slaps
                 local screenGui = Instance.new("ScreenGui", game.CoreGui)
@@ -214,25 +214,3 @@ keyTab:AddTextbox({
 keyTab:AddButton({
     Name = "Check Key",
     Callback = function()
-        if inputKey == KEY then
-            OrionLib:MakeNotification({
-                Name = "Success",
-                Content = "Key is correct! Loading hub...",
-                Image = "rbxassetid://4483345998",
-                Time = 3
-            })
-            createMainTab()
-            createMiscTab() -- Create the Misc tab after successful key entry
-        else
-            OrionLib:MakeNotification({
-                Name = "Error",
-                Content = "Incorrect key entered.",
-                Image = "rbxassetid://4483345998",
-                Time = 3
-            })
-        end
-    end
-})
-
--- Initialize the Orion UI
-OrionLib:Init()
