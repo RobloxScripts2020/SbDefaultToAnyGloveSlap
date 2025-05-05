@@ -37,7 +37,7 @@ local function createMainTab()
     })
 end
 
--- Function to create the Misc tab
+-- Function to create the Misc tab with buttons
 local function createMiscTab()
     local miscTab = Window:MakeTab({
         Name = "Misc",
@@ -45,25 +45,194 @@ local function createMiscTab()
         PremiumOnly = false
     })
 
-    -- "Baller Slap Farm" button
+    -- "Baller + Mace Slap Farm" button
     miscTab:AddButton({
-        Name = "Baller Slap Farm",
+        Name = "Baller + Mace Slap Farm",
         Callback = function()
             local player = game.Players.LocalPlayer
             local leaderstats = player:FindFirstChild("leaderstats")
-            local ballerStat = leaderstats and leaderstats:FindFirstChild("Baller")
+            local slapsStat = leaderstats and leaderstats:FindFirstChild("Slaps") -- Assuming the player's slaps are stored here
 
-            if ballerStat then
-                -- Run the Slap Farm script if player has Baller stat
+            if slapsStat and slapsStat.Value >= 19000 then
+                -- Run the Slap Farm script if the player has at least 19,000 slaps
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/hiiamslapfarmiamveryfamous"))()
             else
-                -- Show an error message if they don't have access
+                -- Show an error message if they don't have 19,000 slaps
                 local screenGui = Instance.new("ScreenGui", game.CoreGui)
-                screenGui.Name = "AccessDeniedGUI"
+                screenGui.Name = "BallerMaceAccessDeniedGUI"
 
                 local textLabel = Instance.new("TextLabel", screenGui)
                 textLabel.Size = UDim2.new(0, 400, 0, 50)
                 textLabel.Position = UDim2.new(0.5, -200, 0.9, 0)
                 textLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
                 textLabel.BorderSizePixel = 0
-                textLabel.TextColor3 = Color3.fromR
+                textLabel.TextColor3 = Color3.fromRGB(255, 80, 80)
+                textLabel.Font = Enum.Font.GothamBold
+                textLabel.TextSize = 20
+                textLabel.Text = player.Name .. " doesn't have 19,000 slaps!"
+                textLabel.BackgroundTransparency = 0.3
+                textLabel.TextStrokeTransparency = 0.5
+                textLabel.TextWrapped = true
+
+                -- Auto-destroy the message after 5 seconds
+                task.delay(5, function()
+                    screenGui:Destroy()
+                end)
+            end
+        end
+    })
+
+    -- "Reaper Slap Farm" button
+    miscTab:AddButton({
+        Name = "Reaper Slap Farm",
+        Callback = function()
+            local player = game.Players.LocalPlayer
+            local leaderstats = player:FindFirstChild("leaderstats")
+            local glovesStat = leaderstats and leaderstats:FindFirstChild("glove") -- Assuming glove is in leaderstats
+            local reaperEquipped = glovesStat and glovesStat.Value == "reaper"  -- Check if Reaper is equipped
+
+            if reaperEquipped then
+                -- Run the Reaper Slap Farm script if Reaper is equipped
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/GiveServerSideEffect"))()
+            else
+                -- Show an error message if Reaper is not equipped
+                local screenGui = Instance.new("ScreenGui", game.CoreGui)
+                screenGui.Name = "ReaperAccessDeniedGUI"
+
+                local textLabel = Instance.new("TextLabel", screenGui)
+                textLabel.Size = UDim2.new(0, 400, 0, 50)
+                textLabel.Position = UDim2.new(0.5, -200, 0.9, 0)
+                textLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                textLabel.BorderSizePixel = 0
+                textLabel.TextColor3 = Color3.fromRGB(255, 80, 80)
+                textLabel.Font = Enum.Font.GothamBold
+                textLabel.TextSize = 20
+                textLabel.Text = "You need 3,500 slaps or need to equip the Reaper glove!"
+                textLabel.BackgroundTransparency = 0.3
+                textLabel.TextStrokeTransparency = 0.5
+                textLabel.TextWrapped = true
+
+                -- Auto-destroy the message after 5 seconds
+                task.delay(5, function()
+                    screenGui:Destroy()
+                end)
+            end
+        end
+    })
+
+    -- "Dual Slaps Farm" button
+    miscTab:AddButton({
+        Name = "Dual Slaps Farm",
+        Callback = function()
+            local player = game.Players.LocalPlayer
+            local leaderstats = player:FindFirstChild("leaderstats")
+            local slapsStat = leaderstats and leaderstats:FindFirstChild("Slaps") -- Assuming the player's slaps are stored here
+
+            if slapsStat and slapsStat.Value >= 4000 then
+                -- Run the Dual Slaps Farm script if the player has at least 4000 slaps
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/boxerslap-Public-Scripts/refs/heads/Slap-Battles/dual%20mastery"))()
+            else
+                -- Show an error message if they don't have 4000 slaps
+                local screenGui = Instance.new("ScreenGui", game.CoreGui)
+                screenGui.Name = "DualSlapAccessDeniedGUI"
+
+                local textLabel = Instance.new("TextLabel", screenGui)
+                textLabel.Size = UDim2.new(0, 400, 0, 50)
+                textLabel.Position = UDim2.new(0.5, -200, 0.9, 0)
+                textLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                textLabel.BorderSizePixel = 0
+                textLabel.TextColor3 = Color3.fromRGB(255, 80, 80)
+                textLabel.Font = Enum.Font.GothamBold
+                textLabel.TextSize = 20
+                textLabel.Text = "You must have 4,000 slaps to use this source. Uses replica + dual."
+                textLabel.BackgroundTransparency = 0.3
+                textLabel.TextStrokeTransparency = 0.5
+                textLabel.TextWrapped = true
+
+                -- Auto-destroy the message after 5 seconds
+                task.delay(5, function()
+                    screenGui:Destroy()
+                end)
+            end
+        end
+    })
+
+    -- "Flick Farm" button
+    miscTab:AddButton({
+        Name = "Flick Farm",
+        Callback = function()
+            local player = game.Players.LocalPlayer
+            local leaderstats = player:FindFirstChild("leaderstats")
+            local slapsStat = leaderstats and leaderstats:FindFirstChild("Slaps") -- Assuming the player's slaps are stored here
+
+            if slapsStat and slapsStat.Value >= 13000 then
+                -- Run the Flick Farm script if the player has at least 13,000 slaps
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SlapBattlesCoders/refs/heads/main/-100/boxerslap-Public-Scripts/refs/heads/Slap-Battles/flick-farm"))()
+            else
+                -- Show an error message if they don't have 13,000 slaps
+                local screenGui = Instance.new("ScreenGui", game.CoreGui)
+                screenGui.Name = "FlickFarmAccessDeniedGUI"
+
+                local textLabel = Instance.new("TextLabel", screenGui)
+                textLabel.Size = UDim2.new(0, 400, 0, 50)
+                textLabel.Position = UDim2.new(0.5, -200, 0.9, 0)
+                textLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                textLabel.BorderSizePixel = 0
+                textLabel.TextColor3 = Color3.fromRGB(255, 80, 80)
+                textLabel.Font = Enum.Font.GothamBold
+                textLabel.TextSize = 20
+                textLabel.Text = "You don't have 13,000 slaps! (Server-side detection)"
+                textLabel.BackgroundTransparency = 0.3
+                textLabel.TextStrokeTransparency = 0.5
+                textLabel.TextWrapped = true
+
+                -- Auto-destroy the message after 5 seconds
+                task.delay(5, function()
+                    screenGui:Destroy()
+                end)
+            end
+        end
+    })
+end
+
+-- Set up the Key System tab
+local keyTab = Window:MakeTab({
+    Name = "Key",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+keyTab:AddTextbox({
+    Name = "Enter Key",
+    Default = "",
+    TextDisappear = true,
+    Callback = function(value)
+        inputKey = value
+    end
+})
+
+keyTab:AddButton({
+    Name = "Check Key",
+    Callback = function()
+        if inputKey == KEY then
+            OrionLib:MakeNotification({
+                Name = "Success",
+                Content = "Key is correct! Loading hub...",
+                Image = "rbxassetid://4483345998",
+                Time = 3
+            })
+            createMainTab()
+            createMiscTab() -- Create the Misc tab after successful key entry
+        else
+            OrionLib:MakeNotification({
+                Name = "Error",
+                Content = "Incorrect key entered.",
+                Image = "rbxassetid://4483345998",
+                Time = 3
+            })
+        end
+    end
+})
+
+-- Initialize the Orion UI
+OrionLib:Init()
