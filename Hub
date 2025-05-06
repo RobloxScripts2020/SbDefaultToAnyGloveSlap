@@ -1,0 +1,54 @@
+-- Load OrionLib
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Giangplay/Script/main/Orion_Library_PE_V2.lua"))()
+
+-- Create Window
+local Window = OrionLib:MakeWindow({
+    Name = "My Script Hub",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "MyHubConfig"
+})
+
+-- Gloves Tab
+local GlovesTab = Window:MakeTab({
+    Name = "Gloves",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- List of Supported Gloves
+local supportedGloves = {
+    "Default","Dual","Diamond","ZZZZZZZ","Extended","Brick","Snow","Pull","Flash","Spring","Swapper","Bull","Dice","Ghost",
+    "Thanos","Stun","Za Hando","Fort","Magnet","Pusher","Anchor","Space","Boomerang","Dream","Mail","Golden","Reaper",
+    "Replica","Cheeky","Defense","Killstreak","Reverse","Shukuchi","Duelist","Woah","Ice","Adios","Blocked","Engineer",
+    "Rocky","Conveyor","Phantom","Wormhole","Stop","God’s Hand","The Flex","Overkill","Spectator","Custom","Acrobat",
+    "Megarock","Plague","Hallow","Jack","[REDACTED]","Bus","Mitten","Phase","Bomb","Warp","Jet","Bubble","Potato","Shard",
+    "Bob","Cult","Buddies","Moon","Jupiter","Spy","Detonator","Rage","Error","Trap","Orbit","Slapple","Tableflip","Hybrid",
+    "Disarm","Dominance","Link","Chain","Loyal Ol’ Larry","Charge","Tycoon","Confusion","Glitch","Snowball","Elude","RNG",
+    "Fish","Obby","Voodoo","Goofy","Leash","Flamerang","Kinetic","Berserk","Sparky","Boogie","Recall","Quake","Psycho",
+    "Thick","Squid","Gummy","Coil","Track","Shield","Booster","Ping Pong","Whirlwind","Baller","Home Run","Ultra Instinct",
+    "Slicer","Excavator","Counter","Hammer","Rob","Balloony","Nightmare","Brazil","Table","G U M","Edgelord","Bobble",
+    "Clone","Train","Sus","Minecraft","Rhythm","Rojo","Hitman","Special"
+}
+
+-- Selected Glove Variable
+local selectedGlove = supportedGloves[1]
+
+-- Dropdown for Gloves
+GlovesTab:AddDropdown({
+    Name = "Select Glove",
+    Default = selectedGlove,
+    Options = supportedGloves,
+    Callback = function(value)
+        selectedGlove = value
+    end
+})
+
+-- Load Button
+GlovesTab:AddButton({
+    Name = "Load MultiGlove Script",
+    Callback = function()
+        _G.gloves = {selectedGlove}
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/AquoupiRblx/SlapBattles/refs/heads/main/MultiGlove.lua"))()
+    end
+})
