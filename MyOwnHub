@@ -4,6 +4,7 @@ local Window = OrionLib:MakeWindow({Name = "Axdle Hub", HidePremium = false, Sav
 -- Tabs
 local MiscTab = Window:MakeTab({Name = "Misc", Icon = "rbxassetid://4483345998", PremiumOnly = false})
 local BadgesTab = Window:MakeTab({Name = "Badges", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+local AntiTab = Window:MakeTab({Name = "Anti", Icon = "rbxassetid://4483345998", PremiumOnly = false})
 
 -- Anti RemoteSpy Detection
 local player = game.Players.LocalPlayer
@@ -60,6 +61,24 @@ task.spawn(function()
 	end
 end)
 
+-- Server Info
+local serverLabel = MiscTab:AddLabel("Made by LunarifyDevelopers")
+local playerCountLabel = MiscTab:AddLabel("Players in Server: " .. #game.Players:GetPlayers())
+local chatMessagesLabel = MiscTab:AddLabel("Chat Messages Sent: 0") -- Placeholder, will update later
+
+-- Update server info
+game.Players.PlayerAdded:Connect(function()
+	playerCountLabel:Set("Players in Server: " .. #game.Players:GetPlayers())
+end)
+
+game.Players.PlayerRemoving:Connect(function()
+	playerCountLabel:Set("Players in Server: " .. #game.Players:GetPlayers())
+end)
+
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(messageData)
+	chatMessagesLabel:Set("Chat Messages Sent: " .. tonumber(chatMessagesLabel.Text:match("%d+")) + 1)
+end)
+
 -- Badges Tab Buttons
 BadgesTab:AddButton({
 	Name = "Free IceSkate (lol)",
@@ -100,7 +119,7 @@ BadgesTab:AddButton({
 	Callback = function()
 		local queue = queueonteleport or queue_on_teleport
 		if queue then
-			queue([[
+			queue([[ 
 				if not game:IsLoaded() then game.Loaded:Wait() end
 				if game.PlaceId == 17290438723 then
 					game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-555, 180, 55)
@@ -128,12 +147,12 @@ BadgesTab:AddButton({
 	Callback = function()
 		local queue = queueonteleport or queue_on_teleport
 		if queue then
-			queue([[
+			queue([[ 
 				if not game:IsLoaded() then game.Loaded:Wait() end
 				_G.Script = 'print("fucked")'
 				if game.PlaceId == 74169485398268 then
 					local time = tick()
-					while tick() - time < 10 do 
+					while tick() - time < 10 do
 						task.wait() 
 						fireclickdetector(workspace.Orb.ClickDetector) 
 					end
@@ -156,5 +175,24 @@ BadgesTab:AddButton({
 				Time = 5
 			})
 		end
+	end
+})
+
+-- Anti Tab: Anti Record Button
+AntiTab:AddButton({
+	Name = "Anti Record",
+	Callback = function()
+		local keywords = {"exploiter", "hacker", "cheater", "reported", "report", "im reporting", "your so bad that you exploit", "any word that means exploiting/hacking"}
+		
+		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(messageData)
+			local message = messageData.Message:lower()
+			for _, keyword in ipairs(keywords) do
+				if message:find(keyword) then
+					local playerName = messageData.Sender.Name
+					game.Players.LocalPlayer:Kick(playerName .. " has been reported for saying inappropriate words in the chat.")
+					break
+				end
+			end
+		end)
 	end
 })
