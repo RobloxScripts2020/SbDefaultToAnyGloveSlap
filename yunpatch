@@ -1,51 +1,24 @@
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Giangplay/Script/main/Orion_Library_PE_V2.lua"))()
-local Window = OrionLib:MakeWindow({Name = "Axdle Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "AxdleHub"})
+
+local Window = OrionLib:MakeWindow({
+    Name = "Axdle Hub",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "AxdleHub"
+})
 
 -- Tabs
 local MiscTab = Window:MakeTab({Name = "Misc", Icon = "rbxassetid://4483345998", PremiumOnly = false})
 local AntiTab = Window:MakeTab({Name = "Anti", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+local BadgesTab = Window:MakeTab({Name = "Badges", Icon = "rbxassetid://4483345998", PremiumOnly = false})
 
--- == MISC TAB ==
-MiscTab:AddLabel("Made by LunarifyDevelopes")
+-- MiscTab Contents
+MiscTab:AddLabel("Made by LunarifyDevelopers")
 
--- Show chat message count and player count
+local playerCountLabel = MiscTab:AddLabel("Players: 0")
+local chatMessageLabel = MiscTab:AddLabel("Chat Messages: 0")
+local chatCount = 0
+
+-- Update server info
 task.spawn(function()
-    while true do
-        task.wait(1)
-        local players = #game.Players:GetPlayers()
-        local chats = #game:GetService("TextChatService").TextChannels.RBXGeneral:GetChildren()
-        MiscTab:AddLabel("Players in server: " .. players)
-        MiscTab:AddLabel("Messages in chat: " .. chats)
-    end
-end)
-
--- == ANTI TAB ==
-AntiTab:AddButton({
-    Name = "Anti Record",
-    Callback = function()
-        OrionLib:MakeNotification({
-            Name = "Axdle Hub",
-            Content = "Anti Record Enabled.",
-            Image = "rbxassetid://4483345998",
-            Time = 5
-        })
-
-        local keywords = {"exploiter", "hacker", "cheater", "reported", "report", "im reporting", "your so bad that you exploit"}
-
-        local TextChatService = game:GetService("TextChatService")
-        local chatChannel = TextChatService:WaitForChild("TextChannels"):WaitForChild("RBXGeneral")
-
-        chatChannel.MessageReceived:Connect(function(message)
-            local text = message.Text:lower()
-            for _, word in ipairs(keywords) do
-                if string.find(text, word) then
-                    local speaker = message.TextSource
-                    local plr = game:GetService("Players"):FindFirstChild(speaker.Name)
-                    if plr then
-                        plr:Kick(plr.Name .. " said something bad. Reported you.")
-                    end
-                end
-            end
-        end)
-    end
-})
+    while task.wait(1) do
