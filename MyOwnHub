@@ -1,0 +1,70 @@
+-- Load OrionLib
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Giangplay/Script/main/Orion_Library_PE_V2.lua"))()
+
+-- Executor detection
+local executor = identifyexecutor and identifyexecutor() or "Unknown"
+
+-- Flagged executors
+local flaggedExecutors = {
+    ["Delta"] = true,
+    ["ScriptWare"] = true,
+    ["Synapse X"] = true,
+    ["JJSploit"] = true
+}
+
+-- File and time setup
+local fileName = "axdle_executor_timestamp.txt"
+local currentTime = os.time()
+local gracePeriod = 86400 -- 24 hours in seconds
+
+-- Create the main window and a Grace Period tab
+local Window = OrionLib:MakeWindow({
+    Name = "Axdle Hub",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "AxdleHubConfig"
+})
+
+-- Grace Period Tab
+local GracePeriodTab = Window:MakeTab({
+    Name = "Grace Period",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Badges Tab
+local BadgesTab = Window:MakeTab({
+    Name = "Badges",
+    Icon = "rbxassetid://4483345998", -- You can change the icon here
+    PremiumOnly = false
+})
+
+-- Add a TextLabel for showing time remaining in Grace Period
+local graceTextLabel = GracePeriodTab:AddLabel("Grace period: Loading...")
+
+-- Add a TextButton for Free IceSkate (lol)
+BadgesTab:AddButton({
+    Name = "Free IceSkate (lol)",
+    Callback = function()
+        -- Trigger the IceSkate event on ReplicatedStorage
+        game:GetService("ReplicatedStorage").IceSkate:FireServer("Freeze")
+        OrionLib:MakeNotification({
+            Name = "Axdle Hub",
+            Content = "You have activated Free IceSkate (lol)!",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end
+})
+
+-- Add a TextButton for Instant Lamp
+local instantLampTextLabel = BadgesTab:AddLabel("")
+
+BadgesTab:AddButton({
+    Name = "Instant Lamp",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        local gloveValue = player.leaderstats and player.leaderstats.Glove and player.leaderstats.Glove.Value
+        local badgeId = 490455814138437
+
+        if gloveValue == "ZZ
