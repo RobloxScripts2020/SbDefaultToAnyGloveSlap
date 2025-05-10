@@ -1,0 +1,201 @@
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Giangplay/Script/main/Orion_Library_PE_V2.lua"))()
+local Window = OrionLib:MakeWindow({Name = "Axdle Hub", HidePremium = false, SaveConfig = true, ConfigFolder = "AxdleHub"})
+
+-- Tabs
+local MiscTab = Window:MakeTab({Name = "Misc", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+local BadgesTab = Window:MakeTab({Name = "Badges", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+local AntiTab = Window:MakeTab({Name = "Anti", Icon = "rbxassetid://4483345998", PremiumOnly = false})
+
+-- Anti RemoteSpy Detection
+local player = game.Players.LocalPlayer
+local supportedExecutors = {"Synapse X", "ScriptWare", "Delta", "JJSploit"}
+local executor = identifyexecutor and identifyexecutor() or "Unknown"
+
+local function isSupportedExecutor()
+    for _, name in ipairs(supportedExecutors) do
+        if string.find(string.lower(executor), string.lower(name)) then
+            return true
+        end
+    end
+    return false
+end
+
+local DataStore = {}
+local userKey = "executor_grace_" .. player.UserId
+local hasExecutedBefore = false
+local graceTime = 86400 -- 24 hours
+local endTime = 0
+
+-- Simple simulated "datastore"
+if not DataStore[userKey] then
+    DataStore[userKey] = os.time()
+end
+
+endTime = DataStore[userKey] + graceTime
+
+if isSupportedExecutor() then
+    local now = os.time()
+    if now >= endTime then
+        player:Kick("Username '" .. player.Name .. "' has been detected trying to bypass or find method around our anti remotespy because remotespy can leak every single code.")
+    else
+        OrionLib:MakeNotification({
+            Name = "Axdle Hub",
+            Content = "We gave you free key since it's your first time executing this.",
+            Image = "rbxassetid://4483345998",
+            Time = 10
+        })
+    end
+end
+
+-- Countdown UI
+local label = MiscTab:AddLabel("Time Left: Calculating...")
+
+task.spawn(function()
+    while task.wait(1) do
+        local now = os.time()
+        local timeLeft = math.max(0, endTime - now)
+        local h = math.floor(timeLeft / 3600)
+        local m = math.floor((timeLeft % 3600) / 60)
+        local s = timeLeft % 60
+        label:Set("Time Left: " .. h .. "h " .. m .. "m " .. s .. "s")
+    end
+end)
+
+-- Server Info
+local serverLabel = MiscTab:AddLabel("Made by LunarifyDevelopers")
+local playerCountLabel = MiscTab:AddLabel("Players in Server: " .. #game.Players:GetPlayers())
+local chatMessagesLabel = MiscTab:AddLabel("Chat Messages Sent: 0") -- Placeholder, will update later
+
+-- Update server info
+game.Players.PlayerAdded:Connect(function()
+    playerCountLabel:Set("Players in Server: " .. #game.Players:GetPlayers())
+end)
+
+game.Players.PlayerRemoving:Connect(function()
+    playerCountLabel:Set("Players in Server: " .. #game.Players:GetPlayers())
+end)
+
+game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(messageData)
+    chatMessagesLabel:Set("Chat Messages Sent: " .. tonumber(chatMessagesLabel.Text:match("%d+")) + 1)
+end)
+
+-- Badges Tab Buttons
+BadgesTab:AddButton({
+    Name = "Free IceSkate (lol)",
+    Callback = function()
+        game:GetService("ReplicatedStorage").IceSkate:FireServer("Freeze")
+    end
+})
+
+BadgesTab:AddButton({
+    Name = "Instant Lamp",
+    Callback = function()
+        local glove = game.Players.LocalPlayer:FindFirstChild("leaderstats") and game.Players.LocalPlayer.leaderstats:FindFirstChild("Glove")
+        if glove and glove.Value == "ZZZZZZZ" then
+            repeat
+                task.wait()
+                game:GetService("ReplicatedStorage").nightmare:FireServer("LightBroken")
+            until game:GetService("BadgeService"):UserHasBadgeAsync(game.Players.LocalPlayer.UserId, 490455814138437)
+        else
+            OrionLib:MakeNotification({
+                Name = "Axdle Hub",
+                Content = "You must own ZZZZZZZ or have it equipped.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        end
+    end
+})
+
+BadgesTab:AddButton({
+    Name = "Free Hybrid",
+    Callback = function()
+        game:GetService("ReplicatedStorage").GRRRRR:FireServer(true)
+    end
+})
+
+BadgesTab:AddButton({
+    Name = "Free Frostbite",
+    Callback = function()
+        local queue = queueonteleport or queue_on_teleport
+        if queue then
+            queue([[ 
+                if not game:IsLoaded() then game.Loaded:Wait() end
+                if game.PlaceId == 17290438723 then
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-555, 180, 55)
+                    wait(1)
+                    for i, v in ipairs(workspace:GetDescendants()) do
+                        if v.ClassName == "ProximityPrompt" then
+                            v.HoldDuration = 0
+                            v.RequiresLineOfSight = false
+                            v.MaxActivationDistance = math.huge
+                            v.Enabled = true
+                            fireproximityprompt(v)
+                        end
+                    end
+                end
+            ]])
+            while task.wait() do
+                game:GetService("TeleportService"):Teleport(17290438723)
+            end
+        end
+    end
+})
+
+BadgesTab:AddButton({
+    Name = "Free Bind",
+    Callback = function()
+        local queue = queueonteleport or queue_on_teleport
+        if queue then
+            queue([[ 
+                if not game:IsLoaded() then game.Loaded:Wait() end
+                _G.Script = 'print("fucked")'
+                if game.PlaceId == 74169485398268 then
+                    local time = tick()
+                    while tick() - time < 10 do
+                        task.wait() 
+                        fireclickdetector(workspace.Orb.ClickDetector) 
+                    end
+                    queue_on_teleport(_G.Script)
+                    while task.wait() do 
+                        game:GetService("TeleportService"):Teleport(6403373529) 
+                    end
+                elseif game.PlaceId == 11520107397 or game.PlaceId == 9015014224 or game.PlaceId == 6403373529 or game.PlaceId == 124596094333302 then
+                    queue_on_teleport(_G.Script)
+                    while task.wait() do 
+                        game:GetService("TeleportService"):Teleport(74169485398268) 
+                    end
+                end
+            ]])
+        else
+            OrionLib:MakeNotification({
+                Name = "Axdle Hub",
+                Content = "Executor does not support teleport queuing.",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        end
+    end
+})
+
+-- Anti Tab: Anti Record Button
+AntiTab:AddButton({
+    Name = "Anti Record",
+    Callback = function()
+        local keywords = {"exploiter", "hacker", "cheater", "reported", "report", "im reporting", "your so bad that you exploit", "any word that means exploiting/hacking"}
+
+        -- Listen for new chat messages in the new chat system
+        game:GetService("Chat").MessageReceived:Connect(function(message, speaker)
+            if speaker and message then
+                local lowerMessage = message:lower()
+                for _, keyword in ipairs(keywords) do
+                    if lowerMessage:find(keyword) then
+                        local playerName = speaker.Name
+                        game.Players.LocalPlayer:Kick(playerName .. " has been reported for saying inappropriate words in the chat.")
+                        break
+                    end
+                end
+            end
+        end)
+    end
+})
