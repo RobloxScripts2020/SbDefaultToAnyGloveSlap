@@ -183,7 +183,8 @@ AntiTab:AddButton({
 	Name = "Anti Record",
 	Callback = function()
 		local keywords = {"exploiter", "hacker", "cheater", "reported", "report", "im reporting", "your so bad that you exploit", "any word that means exploiting/hacking"}
-		
+
+		-- Listen for new chat messages in the new chat system
 		game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(messageData)
 			local message = messageData.Message:lower()
 			for _, keyword in ipairs(keywords) do
