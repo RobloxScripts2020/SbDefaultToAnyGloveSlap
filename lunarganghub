@@ -1,0 +1,48 @@
+-- Anti-Record: Block specific chat messages with keywords
+AntiTab:AddButton({
+    Name = "Enable Anti-Record",
+    Callback = function()
+        local TextChatService = game:GetService("TextChatService")
+        local keywords = {
+            "exploiter", "hacker", "scammer", "cheater", "scripter",
+            "exploiting", "hacking", "scamming", "cheating", "script"
+        }
+
+        -- Listen for new incoming chat messages
+        TextChatService.OnIncomingMessage = function(msg)
+            local text = string.lower(msg.Text)
+            -- Check if the message contains any of the restricted keywords
+            for _, keyword in ipairs(keywords) do
+                if string.find(text, keyword) then
+                    -- Optionally block the message
+                    msg:Destroy()
+
+                    -- Optionally notify the local player or make other actions
+                    OrionLib:MakeNotification({
+                        Name = "Axdle Hub",
+                        Content = "A forbidden word was detected in chat!",
+                        Image = "rbxassetid://4483345998",
+                        Time = 5
+                    })
+
+                    -- Optionally you can kick the player who sent the message (if not the local player)
+                    if msg.TextSource and msg.TextSource ~= game.Players.LocalPlayer then
+                        local user = game:GetService("Players"):GetPlayerByUserId(msg.TextSource.UserId)
+                        if user then
+                            user:Kick("Your message contained forbidden words.")
+                        end
+                    end
+                    break
+                end
+            end
+        end
+
+        -- Notify that Anti-Record has been enabled
+        OrionLib:MakeNotification({
+            Name = "Axdle Hub",
+            Content = "Anti-Record enabled.",
+            Image = "rbxassetid://4483345998",
+            Time = 5
+        })
+    end
+})
