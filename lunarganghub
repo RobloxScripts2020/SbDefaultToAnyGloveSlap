@@ -4,7 +4,7 @@ local Window = OrionLib:MakeWindow({
     Name = "Axdle Hub",
     HidePremium = false,
     SaveConfig = true,
-    ConfigFolder = "AxdleHub"
+    ConfigFolder = "AxdleHubTest"
 })
 
 -- Tabs
@@ -33,6 +33,11 @@ TextChatService.OnIncomingMessage = function(message)
     if message.TextSource then
         chatCount += 1
     end
+end
+
+-- Ensure _G.AntiRecordEnabled is initialized properly
+if not _G.AntiRecordEnabled then
+    _G.AntiRecordEnabled = false
 end
 
 -- AntiTab: Anti-Record Chat Detection
