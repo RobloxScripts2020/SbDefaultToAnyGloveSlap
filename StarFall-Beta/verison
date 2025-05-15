@@ -1,0 +1,192 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local TOOL_NAME = "bro is cooked 💀"
+local ANIMATION_ID = "rbxassetid://16102717448"
+local SOUND_ID = "rbxassetid://5058160717"
+
+local function setGloveLeaderstat()
+    local leaderstats = LocalPlayer:FindFirstChild("leaderstats")
+    if leaderstats then
+        local gloveStat = leaderstats:FindFirstChild("Glove")
+        if gloveStat and gloveStat:IsA("StringValue") then
+            gloveStat.Value = "Starfall Test"
+        end
+    end
+end
+
+local function playEffects()
+    local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    local Humanoid = Character:WaitForChild("Humanoid")
+    local RootPart = Character:WaitForChild("HumanoidRootPart")
+
+    -- Play punch animation
+    local animation = Instance.new("Animation")
+    animation.AnimationId = ANIMATION_ID
+
+    local animator = Humanoid:FindFirstChildOfClass("Animator")
+    if not animator then
+        animator = Instance.new("Animator")
+        animator.Parent = Humanoid
+    end
+
+    local animationTrack = animator:LoadAnimation(animation)
+    animationTrack:Play()
+
+    -- Play sound once
+    local sound = Instance.new("Sound")
+    sound.SoundId = SOUND_ID
+    sound.Volume = 1
+    sound.Parent = RootPart
+    sound:Play()
+
+    -- Flame particle effect
+    if not RootPart:FindFirstChild("FlameParticle") then
+        local particle = Instance.new("ParticleEmitter")
+        particle.Name = "FlameParticle"
+        particle.Texture = "rbxassetid://241594369"
+        particle.Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 85, 0)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 170, 85))
+        }
+        particle.LightEmission = 0.7
+        particle.Size = NumberSequence.new{
+            NumberSequenceKeypoint.new(0, 1),
+            NumberSequenceKeypoint.new(1, 3)
+        }
+        particle.Lifetime = NumberRange.new(0.5, 1)
+        particle.Rate = 50
+        particle.Speed = NumberRange.new(0.5, 1)
+        particle.Rotation = NumberRange.new(-180, 180)
+        particle.RotSpeed = NumberRange.new(-90, 90)
+        particle.VelocitySpread = 50
+        particle.EmissionDirection = Enum.NormalId.Top
+        particle.Parent = RootPart
+    end
+end
+
+local function getNearestTargetLimb()
+    local nearestPlayer = nil
+    local nearestDist = math.huge
+    local character = LocalPlayer.Character
+    if not character then return nil end
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return nil end
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Left Arm") then
+            local targetHRP = player.Character:FindFirstChild("HumanoidRootPart")
+            if targetHRP then
+                local dist = (hrp.Position - targetHRP.Position).Magnitude
+                if dist < nearestDist then
+                    nearestDist = dist
+                    nearestPlayer = player
+                end
+            end
+        end
+    end
+
+    if nearestPlayer and nearestPlayer.Character then
+        return nearestPlayer.Character:FindFirstChild("Left Arm")
+    end
+    return nil
+end
+
+local function doSingleHit()
+    local targetLimb = getNearestTargetLimb()
+    if targetLimb then
+        local hitEvent = ReplicatedStorage:FindFirstChild("GeneralHit")
+        if hitEvent and hitEvent:IsA("RemoteEvent") then
+            hitEvent:FireServer(targetLimb)
+        end
+    end
+end
+
+local function giveTool()
+    local backpack = LocalPlayer:WaitForChild("Backpack")
+    local hasTool = backpack:FindFirstChild(TOOL_NAME) or (LocalPlayer.Character and LocalPlayer.Character:FindFirstChild(TOOL_NAME))
+
+    if not hasTool then
+        local tool = Instance.new("Tool")
+        tool.Name = TOOL_NAME
+        tool.RequiresHandle = false
+        tool.Parent = backpack
+    end
+end
+
+local function equipTool()
+    local backpack = LocalPlayer:WaitForChild("Backpack")
+    local character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    local tool = backpack:FindFirstChild(TOOL_NAME)
+
+    if tool and character then
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid:EquipTool(tool)
+        end
+    end
+end
+
+-- Button setup
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "ManualHitGUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+local Button = Instance.new("TextButton")
+Button.Parent = ScreenGui
+Button.Size = UDim2.new(0, 150, 0, 50)
+Button.Position = UDim2.new(0, 10, 0, 10)
+Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+Button.Font = Enum.Font.SourceSansBold
+Button.TextSize = 20
+Button.Text = "Punch (Click)"
+
+Button.MouseButton1Click:Connect(function()
+    giveTool()
+    equipTool()
+    playEffects()
+    setGloveLeaderstat()
+    doSingleHit()
+end)
+
+-- Tool equipped listener
+local function onToolEquipped(tool)
+    if tool.Name == TOOL_NAME then
+        playEffects()
+        setGloveLeaderstat()
+        doSingleHit()
+    end
+end
+
+local function setupToolListener(character)
+    local backpack = LocalPlayer:WaitForChild("Backpack")
+
+    for _, tool in ipairs(backpack:GetChildren()) do
+        if tool:IsA("Tool") then
+            tool.Equipped:Connect(function() onToolEquipped(tool) end)
+        end
+    end
+
+    backpack.ChildAdded:Connect(function(child)
+        if child:IsA("Tool") then
+            child.Equipped:Connect(function() onToolEquipped(child) end)
+        end
+    end)
+
+    character.ChildAdded:Connect(function(child)
+        if child:IsA("Tool") then
+            child.Equipped:Connect(function() onToolEquipped(child) end)
+        end
+    end)
+end
+
+if LocalPlayer.Character then
+    setupToolListener(LocalPlayer.Character)
+end
+
+LocalPlayer.CharacterAdded:Connect(function(char)
+    setupToolListener(char)
+end)
