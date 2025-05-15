@@ -1,2 +1,5 @@
 _.SetGloveSlap = {"Dual"}
 local ReplicatedStorage events(function) = {"GloveSetValue"}
+
+SlapType:FireOnType{"choose any slap battles glove hit and put it here"}
+FireOnType:FireServer(valud list , b , GeneralHit , reaperHit , KSHIT , Godshand , PanHit , TheFlexHit , NewGloves = "GeneralHit")
