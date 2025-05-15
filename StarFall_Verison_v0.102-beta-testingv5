@@ -1,0 +1,5 @@
+_.SetGloveSlap = PlayersSelectedGlove(function)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SbDefaultToAnyGloveSlap/refs/heads/main/starfall"))()
+wait(2)
+wait(1.5)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SbDefaultToAnyGloveSlap/refs/heads/main/StarFall-Beta/verison"))()
