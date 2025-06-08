@@ -1,0 +1,1 @@
+game.ReplicatedStorage.SelfKnockback:FireServer({["Force"] = 0,["Direction"] = Vector3.new(110,1110.1101,0)})
