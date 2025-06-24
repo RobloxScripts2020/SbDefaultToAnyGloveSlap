@@ -1,0 +1,138 @@
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Giangplay/Script/main/Orion_Library_PE_V2.lua"))()
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local startTime = tick()
+
+-- Utility functions
+local function getSessionTime()
+	local elapsed = tick() - startTime
+	local minutes = math.floor(elapsed / 60)
+	local seconds = math.floor(elapsed % 60)
+	return string.format("%02d:%02d", minutes, seconds)
+end
+
+local function getFriendsInServer()
+	local friendList = {}
+	for _, player in ipairs(Players:GetPlayers()) do
+		if player ~= LocalPlayer and LocalPlayer:IsFriendsWith(player.UserId) then
+			table.insert(friendList, player.Name)
+		end
+	end
+	return (#friendList == 0) and "None" or table.concat(friendList, ", ")
+end
+
+-- Create main UI window
+local Window = OrionLib:MakeWindow({
+	Name = "⚡ Laser v5",
+	HidePremium = false,
+	SaveConfig = true,
+	ConfigFolder = "LaserV5Config"
+})
+
+-- Send bypass notification
+OrionLib:MakeNotification({
+	Name = "Laser v5",
+	Content = "Bypassed anti cheat (Version 2.0)",
+	Image = "rbxassetid://7733658504",
+	Time = 5
+})
+
+-- Info Tab
+local InfoTab = Window:MakeTab({
+	Name = "Info",
+	Icon = "rbxassetid://6031094678",
+	PremiumOnly = false
+})
+
+InfoTab:AddParagraph("Username", LocalPlayer.Name)
+InfoTab:AddParagraph("User ID", tostring(LocalPlayer.UserId))
+InfoTab:AddParagraph("Friends In Server", getFriendsInServer())
+InfoTab:AddParagraph("Players In Server", tostring(#Players:GetPlayers()))
+
+local SessionLabel = InfoTab:AddParagraph("Session Time", "00:00")
+task.spawn(function()
+	while true do
+		SessionLabel:Set("Session Time", getSessionTime())
+		task.wait(1)
+	end
+end)
+
+-- Misc (Beta Preview) Tab
+local MiscTab = Window:MakeTab({
+	Name = "Misc (Beta Preview)",
+	Icon = "rbxassetid://6031280882",
+	PremiumOnly = false
+})
+
+-- Get All Alchemist Ingredients toggle
+local GetAllAlchemist
+GetAllAlchemist = MiscTab:AddToggle({
+	Name = "Get All Alchemist Ingredients",
+	Default = false,
+	Callback = function(Value)
+		AlchemistIngredients = Value
+
+		if LocalPlayer:FindFirstChild("leaderstats") and LocalPlayer.leaderstats.Glove.Value == "Alchemist" then
+			while AlchemistIngredients and LocalPlayer.leaderstats.Glove.Value == "Alchemist" do
+				local ingredients = {
+					"Mushroom", "Glowing Mushroom", "Fire Flower", "Winter Rose", "Dark Root",
+					"Dire Flower", "Autumn Sprout", "Elder Wood", "Hazel Lily", "Wild Vine",
+					"Jade Stone", "Lamp Grass", "Plane Flower", "Blood Rose",
+					"Red Crystal", "Blue Crystal", "Cake Mix"
+				}
+				for _, item in ipairs(ingredients) do
+					game.ReplicatedStorage.AlchemistEvent:FireServer("AddItem", item)
+				end
+				task.wait()
+			end
+		elseif AlchemistIngredients == true then
+			OrionLib:MakeNotification({
+				Name = "Error",
+				Content = "You don't have Alchemist equipped.",
+				Image = "rbxassetid://7733658504",
+				Time = 5
+			})
+			task.wait(0.05)
+			GetAllAlchemist:Set(false)
+		end
+	end
+})
+
+-- Get All Alchemist Potion Pretest beta toggle
+local GetAllAlchemistPotion
+GetAllAlchemistPotion = MiscTab:AddToggle({
+	Name = "Get All Alchemist Potion Pretest beta",
+	Default = false,
+	Callback = function(Value)
+		AlchemistIngredients = Value
+
+		if LocalPlayer:FindFirstChild("leaderstats") and LocalPlayer.leaderstats.Glove.Value == "Alchemist" then
+			while AlchemistIngredients and LocalPlayer.leaderstats.Glove.Value == "Alchemist" do
+				local potions = {
+					"Grug", "idIot", "Nightmare", "Confusion", "Power", "Paralyzing", "Haste",
+					"Invisibility", "Explosion", "Invincible", "Freeze", "Toxic", "Speed",
+					"Feater", "Leather", "Corrupted Vine", "Field"
+				}
+
+				for _, potion in ipairs(potions) do
+					game.ReplicatedStorage.AlchemistEvent:FireServer("AddItem", potion)
+				end
+				
+				-- Special server call only accessible by user heyitsme7358
+				game.ReplicatedStorage.FlexHit:FireServer(LocalPlayer)
+
+				task.wait()
+			end
+		elseif AlchemistIngredients == true then
+			OrionLib:MakeNotification({
+				Name = "Error",
+				Content = "You don't have Alchemist equipped.",
+				Image = "rbxassetid://7733658504",
+				Time = 5
+			})
+			task.wait(0.05)
+			GetAllAlchemistPotion:Set(false)
+		end
+	end
+})
