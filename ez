@@ -1,0 +1,1 @@
+game.ReplicatedStorage.GeneralAbility:FireServer("angry") wait(0.12) game.ReplicatedStorage.SelfKnockback:FireServer({["Force"] = 0,["Direction"] = Vector3.new(0,0.01,0)})
