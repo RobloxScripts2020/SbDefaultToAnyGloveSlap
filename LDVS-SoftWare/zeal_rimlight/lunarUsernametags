@@ -1,0 +1,61 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Create "whiteline" outline-only highlight
+local function createWhitelineHighlight(character)
+	local highlight = Instance.new("Highlight")
+	highlight.Name = "WhitelineHighlight"
+	highlight.FillTransparency = 1 -- Hide fill
+	highlight.OutlineTransparency = 0 -- Fully visible outline
+	highlight.OutlineColor = Color3.new(1, 1, 1) -- White
+	highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+	highlight.Adornee = character
+	highlight.Parent = character
+end
+
+-- Add floating white username above head
+local function createUsernameBillboard(player, character)
+	local head = character:FindFirstChild("Head")
+	if not head or head:FindFirstChild("NameDisplay") then return end
+
+	local billboard = Instance.new("BillboardGui")
+	billboard.Name = "NameDisplay"
+	billboard.Size = UDim2.new(0, 200, 0, 50)
+	billboard.StudsOffset = Vector3.new(0, 2.5, 0)
+	billboard.AlwaysOnTop = true
+	billboard.Adornee = head
+	billboard.Parent = head
+
+	local textLabel = Instance.new("TextLabel")
+	textLabel.Size = UDim2.new(1, 0, 1, 0)
+	textLabel.BackgroundTransparency = 1
+	textLabel.Text = player.Name
+	textLabel.TextColor3 = Color3.new(1, 1, 1)
+	textLabel.TextStrokeTransparency = 0.5
+	textLabel.Font = Enum.Font.SourceSansBold
+	textLabel.TextScaled = true
+	textLabel.Parent = billboard
+end
+
+-- Apply effect to a player (if not local)
+local function applyWhitelineToPlayer(player)
+	if player == LocalPlayer then return end
+
+	player.CharacterAdded:Connect(function(char)
+		char:WaitForChild("Head", 5)
+		createWhitelineHighlight(char)
+		createUsernameBillboard(player, char)
+	end)
+
+	if player.Character then
+		createWhitelineHighlight(player.Character)
+		createUsernameBillboard(player, player.Character)
+	end
+end
+
+-- Apply to current and future players
+for _, player in ipairs(Players:GetPlayers()) do
+	applyWhitelineToPlayer(player)
+end
+
+Players.PlayerAdded:Connect(applyWhitelineToPlayer)
