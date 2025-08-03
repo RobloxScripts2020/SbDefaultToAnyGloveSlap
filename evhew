@@ -1,0 +1,6 @@
+if bypasswords =  {
+
+local VoiceChatService = game:GetService("VoiceChatService")
+
+-- This disables proximity chat entirely
+VoiceChatService.VoiceChatEnabled = false
